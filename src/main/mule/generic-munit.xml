@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:x12="http://www.mulesoft.org/schema/mule/x12"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/x12 http://www.mulesoft.org/schema/mule/x12/current/mule-x12.xsd">
+	<flow name="employee-indvidual-process-flow"
+		doc:id="e44f4095-f33b-4fa2-bc62-8459a931d85f">
+		<http:listener doc:name="Listener"
+			doc:id="c4d1a133-66cf-4ca0-b109-0cd5d6a00f54"
+			config-ref="HTTP_Listener_config" path="/cdm-x12" />
+		<ee:transform doc:name="Transform Message"
+			doc:id="9d45a9e2-e624-4329-a773-613438f704d4">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  companyName: payload.company.name,
+  companyAddress: payload.company.address pluck($) joinBy ", ",
+  employeeDetails: payload.company.employees flatMap ((employee) -> do{
+      var data = {
+    id: employee.id,
+    name: employee.name,
+    position: employee.position,
+    skills: employee.skills joinBy ", "
+    }
+    ---
+    employee.projects map ((project) -> data ++ {
+      projectName: project.name,
+      projectStatus: project.status,
+      projectBudget: project.budget
+    })
+  })
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request"
+			doc:id="d3ad9e1e-7cc9-4d7b-a5aa-e95e7dc973dc"
+			url="https://api.restful-api.dev/objects" />
+		<ee:transform doc:name="Transform Message" doc:id="9f6d6993-0235-46af-af76-5c967f19bc6d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter ($.projectStatus ~= 'In Progress') map ({
+	empId: $.id,
+	empName: $.name,
+	empPosetion: $.position,
+	empSkills: $.skills,
+	currentProject: $.projectName,
+	currentProjectStatus: $.projectStatus
+})]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="employee-indvidual-process-dummy-flow" doc:id="00cfdd75-8d2b-4c35-b397-146d505529a2" >
+		<http:listener doc:name="Listener" doc:id="5f7d270d-cb9b-4429-90d0-6c97ce2935e9" config-ref="HTTP_Listener_config" path="/cdm-x12" />
+		<ee:transform doc:name="Transform Message" doc:id="9852b230-7642-435c-9274-91cfc8766e8b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  companyName: payload.company.name,
+  companyAddress: payload.company.address pluck($) joinBy ", ",
+  employeeDetails: payload.company.employees flatMap ((employee) -> do{
+      var data = {
+    id: employee.id,
+    name: employee.name,
+    position: employee.position,
+    skills: employee.skills joinBy ", "
+    }
+    ---
+    employee.projects map ((project) -> data ++ {
+      projectName: project.name,
+      projectStatus: project.status,
+      projectBudget: project.budget
+    })
+  })
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request" doc:id="2c4c6835-352d-4621-8568-0af78a5cdc44" url="https://api.restful-api.dev/objects" />
+		<ee:transform doc:name="Transform Message1" doc:id="76cbf014-306b-4a51-beb4-1868afac3431" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter ($.projectStatus ~= 'In Progress') map ({
+	empId: $.id,
+	empName: $.name,
+	empPosetion: $.position,
+	empSkills: $.skills,
+	currentProject: $.projectName,
+	currentProjectStatus: $.projectStatus
+})]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

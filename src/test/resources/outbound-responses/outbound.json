@@ -1,0 +1,18 @@
+[
+  {
+    "empId": 1,
+    "empName": "John Doe",
+    "empPosetion": "Software Engineer",
+    "empSkills": "JavaScript, React, Node.js",
+    "currentProject": "Project Beta",
+    "currentProjectStatus": "In Progress"
+  },
+  {
+    "empId": 2,
+    "empName": "Jane Smith",
+    "empPosetion": "Data Scientist",
+    "empSkills": "Python, Machine Learning, Data Analysis",
+    "currentProject": "Project Delta",
+    "currentProjectStatus": "In Progress"
+  }
+]

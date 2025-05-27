@@ -1,0 +1,76 @@
+generic-munit-test-case-1:
+  #event details
+  event: 
+    request: "inbound-requests/inbound.json"
+  #  request-type: "application/json"
+  #http attributes to be checked
+  attributesList: "attributes/attributes.json"
+  #flow name to be tested
+  flowName: "employee-indvidual-process-flow"
+  #To mock components
+  mock: 
+    component: "http:request"
+    id: "d3ad9e1e-7cc9-4d7b-a5aa-e95e7dc973dc"
+    response: "downstream-system/responses/httpResponse.json"
+  #  response-type: "application/json"
+  #To spy components
+  spy: 
+    component: "http:request"
+    id: "d3ad9e1e-7cc9-4d7b-a5aa-e95e7dc973dc"
+    test-data: 
+      before: "downstream-system/requests/spyBeforeRequest.json"
+   #   before-type: "application/json"
+      after: "downstream-system/responses/spyAfterResponse.json"
+   #   after-type: "application/json"
+    dwl: 
+      actual: "dwl/nonStringactualFormat.dwl"
+      expected: "dwl/nonStringactualFormat.dwl"
+  #To mock downstream backend system(s) request and response
+  downstream-system:
+    #backend-system.request
+    request: "downstream-system/requests/backend-request.json"
+    #backend-system.response
+    response: "downstream-system/responses/backend-response.json"
+  #assert details
+  assert: 
+    response: "outbound-responses/outbound.json"
+  #  response-type: "application/json"
+
+generic-munit-test-case-2:
+  #event details
+  event: 
+    request: "inbound-requests/inbound.json"
+  #  request-type: "application/json"
+  #http attributes to be checked
+  attributesList: "attributes/attributes.json"
+  #flow name to be tested
+  flowName: "employee-indvidual-process-dummy-flow"
+  #To mock components
+  mock: 
+    component: "http:request"
+    id: "2c4c6835-352d-4621-8568-0af78a5cdc44"
+    response: "downstream-system/responses/httpResponse.json"
+  #  response-type: "application/json"
+  #To spy components
+  spy: 
+    component: "http:request"
+    id: "2c4c6835-352d-4621-8568-0af78a5cdc44"
+    test-data: 
+      before: "downstream-system/requests/spyBeforeRequest.json"
+   #   before-type: "application/json"
+      after: "downstream-system/responses/spyAfterResponse.json"
+   #   after-type: "application/json"
+    dwl: 
+      actual: "dwl/nonStringactualFormat.dwl"
+      expected: "dwl/nonStringactualFormat.dwl"
+  #To mock downstream backend system(s) request and response
+  downstream-system:
+    #backend-system.request
+    request: "downstream-system/requests/backend-request.json"
+    #backend-system.response
+    response: "downstream-system/responses/backend-response.json"
+  #assert details
+  assert: 
+    response: "outbound-responses/outbound.json"
+  #  response-type: "application/json"
+

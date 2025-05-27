@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "position": "Software Engineer",
+    "skills": "JavaScript, React, Node.js",
+    "projectName": "Project Alpha",
+    "projectStatus": "Completed",
+    "companyName": "Tech Solutions Inc.",
+    "companyAddress": "123 Innovation Drive, Hyderabad, Telangana, 500081, India"
+  },
+  {
+    "id": 1,
+    "name": "John Doe",
+    "position": "Software Engineer",
+    "skills": "JavaScript, React, Node.js",
+    "projectName": "Project Beta",
+    "projectStatus": "In Progress",
+    "companyName": "Tech Solutions Inc.",
+    "companyAddress": "123 Innovation Drive, Hyderabad, Telangana, 500081, India"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "position": "Data Scientist",
+    "skills": "Python, Machine Learning, Data Analysis",
+    "projectName": "Project Gamma",
+    "projectStatus": "Completed",
+    "companyName": "Tech Solutions Inc.",
+    "companyAddress": "123 Innovation Drive, Hyderabad, Telangana, 500081, India"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "position": "Data Scientist",
+    "skills": "Python, Machine Learning, Data Analysis",
+    "projectName": "Project Delta",
+    "projectStatus": "In Progress",
+    "companyName": "Tech Solutions Inc.",
+    "companyAddress": "123 Innovation Drive, Hyderabad, Telangana, 500081, India"
+  }
+]

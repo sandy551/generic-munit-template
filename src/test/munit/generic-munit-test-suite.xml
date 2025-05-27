@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="generic-munit-test-suite.xml">
+		<munit:parameterizations file="munitParameterizations.yaml" />
+
+
+	</munit:config>
+	<munit:test name="generic-munit-test-suite-generic-test-2" doc:id="9a890d18-6511-4fce-a3cd-621067866ef5" description="Test" >
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="${flowName}" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock System API" doc:id="6e850ec4-8138-45b1-8771-95c0bfee16de" processor="${mock.component}" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="${mock.id}" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('mock.response'),&quot;application/json&quot;)]" mediaType="application/json" />
+					<munit-tools:attributes value="#[{}]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy HTTP Request" doc:id="15ae5248-779f-4291-afb8-9eb73b4f72b1" processor="${spy.component}" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="${spy.id}" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<ee:transform doc:name="dwl &amp; actualPayload" doc:id="226a0c03-75ba-4830-ab3b-f5e780b20b1c" >
+						<ee:message />
+						<ee:variables >
+							<ee:set-variable variableName="actualDwl" ><![CDATA[%dw 2.0
+output text/plain
+---
+readUrl("classpath://" ++ p('spy.dwl.actual'),"text/plain")]]></ee:set-variable>
+							<ee:set-variable variableName="expectedPayload" ><![CDATA[%dw 2.0
+output application/json
+---
+readUrl("classpath://" ++ p('spy.test-data.before'),"application/json")]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+					<ee:dynamic-evaluate doc:name="actualPayload" doc:id="e803e62d-2e84-4800-a17b-2423d839ed57" expression="#[vars.actualDwl]" />
+					<ee:dynamic-evaluate doc:name="expectedPayload" doc:id="d3f127dd-357e-4fe9-8049-15668be06414" expression="#[readUrl(&quot;classpath://&quot; ++ p('spy.dwl.expected'),&quot;text/plain&quot;)]" target="expectedPayload" />
+					<munit-tools:assert-equals doc:name="Assert Request Mapping" doc:id="22a96009-9ac6-4d3c-a154-6e44a460d932" actual="#[payload]" expected="#[vars.expectedPayload]" message="Before SPY #[p('spy.component')] component payload not matched" />
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<ee:transform doc:name="dwl &amp; actualPayload" doc:id="959c12ee-3531-436a-ac2f-f0073572cfaa" >
+						<ee:message />
+						<ee:variables >
+							<ee:set-variable variableName="actualDwl" ><![CDATA[%dw 2.0
+output text/plain
+---
+readUrl("classpath://" ++ p('spy.dwl.actual'),"text/plain")]]></ee:set-variable>
+							<ee:set-variable variableName="expectedPayload" ><![CDATA[%dw 2.0
+output application/json
+---
+readUrl("classpath://" ++ p('spy.test-data.after'),"application/json")]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+					<ee:dynamic-evaluate doc:name="actualPayload" doc:id="6f34cb8e-e7d8-4962-8042-cf4ae3ef835e" expression="#[vars.actualDwl]" />
+					<ee:dynamic-evaluate doc:name="expectedPayload" doc:id="c5c85f20-1ae5-4194-a1da-62067a08bae3" expression="#[readUrl(&quot;classpath://&quot; ++ p('spy.dwl.expected'),&quot;text/plain&quot;)]" target="expectedPayload" />
+					<munit-tools:assert-equals doc:name="Assert Request Mapping" doc:id="c0120117-f132-4d41-870e-39891b4c3e4a" actual="#[payload]" expected="#[vars.expectedPayload]" message="After SPY #[p('spy.component')] component payload not matched" />
+				</munit-tools:after-call>
+			</munit-tools:spy>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Generic Event" doc:id="bcb7e168-15a9-4c73-8b29-31d89bc09bdf" >
+				<munit:payload value="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('event.request'),&quot;application/json&quot;)]" mediaType="application/json" />
+				<munit:payload value="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('event.request'),&quot;application/json&quot;)]" mediaType="application/json" />
+				<munit:payload value="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('event.request'),&quot;application/json&quot;)]" mediaType="application/json" />
+				<munit:payload value="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('event.request'),&quot;application/json&quot;)]" mediaType="application/json" />
+				<munit:payload value="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('event.request'),&quot;application/json&quot;)]" mediaType="application/json" />
+				<munit:payload value="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('event.request'),&quot;application/json&quot;)]" mediaType="application/json" />
+				<munit:attributes value="#[{}]" />
+				<munit:attributes value="#[{}]" />
+				<munit:attributes value="#[{}]" />
+				<munit:attributes value="#[{}]" />
+				<munit:attributes value="#[{}]" />
+				<munit:attributes value="#[{}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Generic Flow Ref driven by flow-name Parameter" doc:id="88afe5dd-aa37-4d9c-9ead-1c1440ce05a0" name="#[p('flowName')]" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert FInal Response" doc:id="a5b49600-7645-42d0-8eb0-77f3105666f6" actual="#[payload]" expected="#[output application/json --- readUrl(&quot;classpath://&quot; ++ p('assert.response'),&quot;application/json&quot;)]" />
+		</munit:validation>
+	</munit:test>
+</mule>

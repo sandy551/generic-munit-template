@@ -1,0 +1,70 @@
+{
+  "company": {
+    "name": "Tech Solutions Inc.",
+    "address": {
+      "street": "123 Innovation Drive",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "postalCode": "500081",
+      "country": "India"
+    },
+    "employees": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "position": "Software Engineer",
+        "skills": [
+          "JavaScript",
+          "React",
+          "Node.js"
+        ],
+        "projects": [
+          {
+            "name": "Project Alpha",
+            "status": "Completed",
+            "budget": 150000
+          },
+          {
+            "name": "Project Beta",
+            "status": "In Progress",
+            "budget": 200000
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "position": "Data Scientist",
+        "skills": [
+          "Python",
+          "Machine Learning",
+          "Data Analysis"
+        ],
+        "projects": [
+          {
+            "name": "Project Gamma",
+            "status": "Completed",
+            "budget": 180000
+          },
+          {
+            "name": "Project Delta",
+            "status": "In Progress",
+            "budget": 220000
+          }
+        ]
+      }
+    ],
+    "departments": [
+      {
+        "name": "Engineering",
+        "head": "Alice Johnson",
+        "budget": 500000
+      },
+      {
+        "name": "Marketing",
+        "head": "Bob Brown",
+        "budget": 300000
+      }
+    ]
+  }
+}

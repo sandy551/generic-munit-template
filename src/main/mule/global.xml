@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:x12="http://www.mulesoft.org/schema/mule/x12" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/x12 http://www.mulesoft.org/schema/mule/x12/current/mule-x12.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d387063-5c4e-4999-8c04-362e4411e69d" >
+		<http:listener-connection host="0.0.0.0" port="8086" />
+	</http:listener-config>
+	<x12:config name="X12_EDI_Config" doc:name="X12 EDI Config" doc:id="ba1caa5a-349a-429d-98d3-5a250176f02a" interchangeIdQualifierSelf="12" interchangeIdSelf="6122932712T" groupIdSelf="6122932712T" interchangeIdQualifierPartner="ZZ" interchangeIdPartner="ACORE" groupIdPartner="ACORE">
+		<x12:connection />
+		<x12:schemas >
+			<x12:schema value="x12/004010/810.esl" />
+		</x12:schemas>
+	</x12:config>
+
+</mule>
